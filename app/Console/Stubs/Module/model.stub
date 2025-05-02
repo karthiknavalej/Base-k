@@ -1,0 +1,51 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+
+class DummyClassName extends Model
+{
+    use HasFactory;
+
+    /**
+    * The attribute that are table name.
+    *
+    * @var string
+    */
+    protected $table = 'DummyTableName';
+
+    /**
+    * The attribute that are guarded from mass assignable.
+    *
+    * @var array
+    */
+    protected $guarded = [];
+
+    /**
+    * The attribute that are protecting datetime assigned by default.
+    *
+    * @var bool
+    */
+    public $timestamps = false;
+
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::addGlobalScope('business', function (Builder $builder) {
+            $user = auth()->user();
+            if($user !== null) {
+                $roles = $user->roles()->get()->pluck('name')->toArray();
+                if (!in_array('admin', $roles)) {
+                    $builder->where('created_by', $user->id);
+                }
+            }
+        });
+    }
+}

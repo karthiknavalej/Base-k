@@ -1,0 +1,31 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class UserDeviceDetails extends Model
+{
+    use HasFactory;
+        /**
+    * The attribute that are table name.
+    *
+    * @var string
+    */
+    protected $table = 'user_device_details';
+
+    /**
+    * The attribute that are guarded from mass assignable.
+    *
+    * @var array
+    */
+    protected $guarded = [];
+
+    /**
+    * The attribute that are protecting datetime assigned by default.
+    *
+    * @var bool
+    */
+    public $timestamps = false;
+}
